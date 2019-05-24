@@ -46,8 +46,22 @@ resource "random_id" "randomId" {
 
 }
 
-resource "azurerm_storage_account" "az-sa" {
+resource "azurerm_storage_account" "az-sa-diag" {
     name                = "diag${random_id.randomId.hex}"
+    resource_group_name = "${azurerm_resource_group.rg-main.name}"
+    location            = "${var.g-location}"
+    account_replication_type = "LRS"
+    account_tier = "Standard"
+
+    tags {
+        environment = "hddtest"
+    }
+
+    depends_on = ["azurerm_resource_group.rg-main"]
+}
+
+resource "azurerm_storage_account" "stor-hddtest-main" {
+  name                = "stor-hddtest-main"
     resource_group_name = "${azurerm_resource_group.rg-main.name}"
     location            = "${var.g-location}"
     account_replication_type = "LRS"
