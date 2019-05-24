@@ -61,7 +61,7 @@ resource "azurerm_storage_account" "az-sa-diag" {
 }
 
 resource "azurerm_storage_account" "stor-hddtest-main" {
-  name                = "stor-hddtest-main"
+  name                = "storhddtestmain"
     resource_group_name = "${azurerm_resource_group.rg-main.name}"
     location            = "${var.g-location}"
     account_replication_type = "LRS"
