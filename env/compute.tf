@@ -1,7 +1,3 @@
-variable "dsc_config" {
-  default = "hddtest.ProdNode"
-}
-
 
 resource "azurerm_network_interface" "nic-hddtest-main-server2016" {
     name                = "nic-hddtest-main-server2016"
@@ -67,36 +63,4 @@ resource "azurerm_virtual_machine" "vm-hddtest-server2016-prd" {
     }
 
     depends_on = ["azurerm_storage_account.stor-hddtest-main","data.azurerm_key_vault_secret.adm-usr-server2016-prd"]
-}
-
-resource "azurerm_virtual_machine_extension" "dsc" {
-  name                 = "Microsoft.Powershell.DSC"
-  location             = "${var.g-location}"
-  resource_group_name  = "${azurerm_resource_group.rg-main.name}"
-  virtual_machine_name = "${azurerm_virtual_machine.vm-hddtest-server2016-prd.name}"
-  publisher            = "Microsoft.Powershell"
-  type                 = "DSC"
-  type_handler_version = "2.77"
-  depends_on           = ["azurerm_virtual_machine.vm-hddtest-server2016-prd"]
-
-  settings = <<SETTINGS
-        {
-            "configurationArguments": 
-            {
-                "RegistrationUrl" : "${data.azurerm_key_vault_secret.sec-dsc-ep.value}",
-                "NodeConfigurationName" : "${var.dsc_config}"
-            }
-}
-    SETTINGS
-
-  protected_settings = <<PROTECTED_SETTINGS
-    {
-        "configurationArguments": {
-            "RegistrationKey": {
-                "userName": "NOT_USED",
-                "Password": "${data.azurerm_key_vault_secret.sec-dsc-pri-ak.value}"
-        }
-    }
-}
-PROTECTED_SETTINGS
 }
