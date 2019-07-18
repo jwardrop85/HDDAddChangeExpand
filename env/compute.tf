@@ -77,7 +77,6 @@ resource "azurerm_virtual_machine_extension" "InitVM" {
 
   settings = <<SETTINGS
     {
-        
         "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -command 'Set-WinSystemLocale -SystemLocale en-GB;Set-WinHomeLocation -GeoId 242;Set-WinUserLanguageList -LanguageList (New-WinUserLanguageList -Language en-GB) -Force;Set-Culture en-GB;exit 0'"
     }
 SETTINGS
