@@ -77,7 +77,7 @@ resource "azurerm_virtual_machine_extension" "InitVM" {
 
   settings = <<SETTINGS
     {
-        "fileUris": ["https://raw.githubusercontent.com/jwardrop85/HDDAddChangeExpand/dev/ps/Init-VM.ps1"],
+        "fileUris": ["https://raw.githubusercontent.com/jwardrop85/HDDAddChangeExpand/dev/ps/Init-VM.ps1","https://raw.githubusercontent.com/jwardrop85/HDDAddChangeExpand/dev/ps/en-gb.xml"],
         "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File Init-VM.ps1"
     }
 SETTINGS
