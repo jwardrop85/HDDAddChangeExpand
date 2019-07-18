@@ -64,3 +64,24 @@ resource "azurerm_virtual_machine" "vm-hddtest-server2016-prd" {
 
     depends_on = ["azurerm_storage_account.stor-hddtest-main","data.azurerm_key_vault_secret.adm-usr-server2016-prd"]
 }
+
+resource "azurerm_virtual_machine_extension" "InitVM" {
+  name                 = "hostname"
+  location             = "${var.g-location}"
+  resource_group_name  = "${azurerm_resource_group.rg-main.name}"
+  virtual_machine_name = "${azurerm_virtual_machine.vm-hddtest-server2016-prd.name}"
+  publisher            = "Microsoft.Azure.Extensions"
+  type                 = "CustomScript"
+  type_handler_version = "2.0"
+
+  settings = <<SETTINGS
+    {
+        
+        "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -command 'Set-WinSystemLocale -SystemLocale en-GB;Set-WinHomeLocation -GeoId 242;Set-WinUserLanguageList -LanguageList (New-WinUserLanguageList -Language en-GB) -Force;Set-Culture en-GB'"
+    }
+SETTINGS
+
+  tags = {
+    environment = "hddtest"
+  }
+}
