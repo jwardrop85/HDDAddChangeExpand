@@ -66,7 +66,7 @@ resource "azurerm_virtual_machine" "vm-hddtest-server2016-prd" {
 }
 
 resource "azurerm_virtual_machine_extension" "InitVM" {
-  name                 = "hostname"
+  name                 = "InitVM"
   location             = "${var.g-location}"
   resource_group_name  = "${azurerm_resource_group.rg-main.name}"
   virtual_machine_name = "${azurerm_virtual_machine.vm-hddtest-server2016-prd.name}"
